@@ -228,10 +228,16 @@ def get_model_queryset(admin_site, model, request, preserved_filters=None):
     try:
         sortable_by = model_admin.get_sortable_by(request)
         change_list_args.append(sortable_by)
+        search_help_text = model_admin.search_help_text
     except AttributeError:
         # django version < 2.1
         pass
 
+    try:
+        change_list_args.append(model_admin.search_help_text)
+    except AttributeError:
+        # django version < 4.0
+        pass
     try:
         cl = ChangeList(*change_list_args)
         queryset = cl.get_queryset(request)
