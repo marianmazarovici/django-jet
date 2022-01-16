@@ -237,7 +237,8 @@ def get_model_queryset(admin_site, model, request, preserved_filters=None):
         change_list_args.append(model_admin.search_help_text)
     except AttributeError:
         # django version < 4.0
-        pass
+        change_list_args.append(None)
+
     try:
         cl = ChangeList(*change_list_args)
         queryset = cl.get_queryset(request)
